@@ -63,7 +63,7 @@
 
         const { useState, useEffect, useRef } = React;
 
-        // CẤU HÌNH FIREBASE CỦA BẠN (Đã thêm vào code)
+        // CẤU HÌNH FIREBASE CỦA BẠN
         let firebaseConfig = {
             apiKey: "AIzaSyCXiTxbtv7AEW0LbE52XlYkY5g8ngURXEA",
             authDomain: "bobenglish-database.firebaseapp.com",
@@ -73,7 +73,6 @@
             appId: "1:699100969311:web:037c2178ac66ad93a85eea"
         };
 
-        // Hỗ trợ hiển thị trên nền tảng tích hợp
         if (typeof __firebase_config !== 'undefined') {
             firebaseConfig = JSON.parse(__firebase_config);
         }
@@ -178,7 +177,7 @@
             return (
                 <div className="min-h-screen pb-10">
                     {!user ? (
-                        <LoginScreen onLogin={handleLogin} error={error} fbUser={fbUser} />
+                        <LoginScreen onLogin={handleLogin} error={error} fbUser={fbUser} fbError={fbError} />
                     ) : (
                         <div className="animate-fade-up">
                             {/* Navigation Bar */}
@@ -254,6 +253,112 @@
                                 </button>
                             </form>
                         </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const StudentHub = ({ user }) => {
+            const lessons = [
+                { 
+                    title: "Reading", 
+                    subtitle: "Luyện đọc hiểu",
+                    desc: "Cải thiện kỹ năng đọc thông qua các bài báo, truyện ngắn và bài tập đọc hiểu đa dạng.",
+                    icon: "book-open", 
+                    color: "text-indigo-600", 
+                    bg: "bg-indigo-50",
+                    path: "reading.html" 
+                },
+                { 
+                    title: "Bảng IPA", 
+                    subtitle: "Phát âm chuẩn",
+                    desc: "Học cách đọc 44 âm trong bảng phiên âm Quốc tế để nói tiếng Anh chuẩn xác.",
+                    icon: "mic-2", 
+                    color: "text-blue-600", 
+                    bg: "bg-blue-50",
+                    path: "ipa.html"
+                },
+                { 
+                    title: "Listening", 
+                    subtitle: "Luyện nghe hiểu",
+                    desc: "Cải thiện khả năng nghe thông qua các bài hội thoại và video thực tế hàng ngày.",
+                    icon: "headphones", 
+                    color: "text-emerald-600", 
+                    bg: "bg-emerald-50",
+                    path: "listening.html"
+                },
+                { 
+                    title: "Speaking", 
+                    subtitle: "Luyện nói tự tin",
+                    desc: "Thực hành giao tiếp theo các tình huống phổ biến để tăng phản xạ nói lưu loát.",
+                    icon: "message-circle", 
+                    color: "text-violet-600", 
+                    bg: "bg-violet-50",
+                    path: "speaking.html"
+                },
+                { 
+                    title: "Vocabulary", 
+                    subtitle: "Vốn từ vựng",
+                    desc: "Ghi nhớ từ mới theo chủ đề thông qua hình ảnh minh họa và ví dụ sinh động.",
+                    icon: "sparkles", 
+                    color: "text-amber-600", 
+                    bg: "bg-amber-50",
+                    path: "vocabulary.html"
+                },
+                { 
+                    title: "Bilingual", 
+                    subtitle: "Song ngữ Anh-Việt",
+                    desc: "Đọc tin tức và truyện ngắn song ngữ giúp hiểu sâu ngữ cảnh và cấu trúc câu.",
+                    icon: "languages", 
+                    color: "text-rose-600", 
+                    bg: "bg-rose-50",
+                    path: "bilingual.html"
+                },
+                { 
+                    title: "Taboo Game", 
+                    subtitle: "Trò chơi đố chữ",
+                    desc: "Vừa chơi vừa học, giải đố từ vựng để ôn tập kiến thức một cách vui vẻ nhất.",
+                    icon: "gamepad-2", 
+                    color: "text-orange-600", 
+                    bg: "bg-orange-50",
+                    path: "taboo.html"
+                },
+            ];
+
+            return (
+                <div className="space-y-6">
+                    <div className="bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[2rem] p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+                        <div className="relative z-10">
+                            <h2 className="text-2xl sm:text-3xl font-black mb-2">Chào, {user.name.split(' ').pop()}! 👋</h2>
+                            <p className="text-indigo-100 text-sm sm:text-base font-medium opacity-90">Hôm nay chúng ta sẽ bắt đầu kỹ năng nào?</p>
+                        </div>
+                        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {lessons.map((item, i) => (
+                            <div 
+                                key={i} 
+                                onClick={() => window.location.href = item.path}
+                                className="lesson-card bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col cursor-pointer hover:bg-slate-50 transition-colors"
+                            >
+                                <div className="flex items-center gap-4 mb-4">
+                                    <div className={`w-12 h-12 shrink-0 ${item.bg} ${item.color} rounded-2xl flex items-center justify-center`}>
+                                        <Icon name={item.icon} size={24} />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-extrabold text-lg text-slate-800 leading-none">{item.title}</h3>
+                                        <p className="text-[10px] uppercase font-bold text-slate-400 mt-1 tracking-wider">{item.subtitle}</p>
+                                    </div>
+                                </div>
+                                <p className="text-slate-500 text-xs leading-relaxed font-medium mb-4 flex-1">
+                                    {item.desc}
+                                </p>
+                                <div className="flex items-center text-indigo-600 font-bold text-[10px] uppercase tracking-widest gap-2">
+                                    Bắt đầu học <Icon name="chevron-right" size={12} />
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             );
